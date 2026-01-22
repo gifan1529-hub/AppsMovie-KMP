@@ -81,6 +81,7 @@ fun DetailTicketScreen(
                 },
                 actions = {
                     IconButton(onClick = {
+                        viewModel.downloadPdf(ticket)
 //                        val name = "Ticket_${ticket?.movieTitle ?: "Movie"}"
 //                        exportToPdf.exportViewToPdf(context, view, name)
                     }) {

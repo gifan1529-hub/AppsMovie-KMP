@@ -33,6 +33,9 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation("io.insert-koin:koin-android:4.0.0")
             implementation("io.ktor:ktor-client-okhttp:2.3.12")
+
+            // export pdf
+            implementation("com.tom-roush:pdfbox-android:2.0.27.0")
         }
         commonMain.dependencies {
             val room_version = "2.7.0-alpha11"
