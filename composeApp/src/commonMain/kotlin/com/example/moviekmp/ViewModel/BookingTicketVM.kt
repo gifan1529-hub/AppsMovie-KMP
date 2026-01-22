@@ -12,10 +12,15 @@ import com.example.moviekmp.Domain.Usecase.BuffetMenuUC
 import com.example.moviekmp.Domain.Usecase.CalculatePriceUC
 import com.example.moviekmp.Domain.Usecase.GetUserUC
 import com.example.moviekmp.Domain.Usecase.ValidateSeatUC
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
@@ -59,7 +64,7 @@ class BookingTicketVM (
     val paymentTrigger = MutableStateFlow(false)
     private val _takenSeats = MutableStateFlow<Set<String>>(emptySet())
     val takenSeats: StateFlow<Set<String>> = _takenSeats
-    private val _bookingData = MutableStateFlow<BookingData>(BookingData())
+    private val     _bookingData = MutableStateFlow<BookingData>(BookingData())
     val bookingData: StateFlow<BookingData> = _bookingData
 
     init {
@@ -214,50 +219,58 @@ class BookingTicketVM (
         }
     }
 
-    @OptIn(ExperimentalTime::class)
+    @OptIn(ExperimentalTime::class, DelicateCoroutinesApi::class)
     fun confirmPaymentAndSave(method: String, userEmail: String) {
-        val data = _bookingData.value ?: return
+        println("ok: proses pembayaran")
+        val data = _bookingData.value
 
-        viewModelScope.launch {
+        if (data == null || data.movieTitle == null) {
+            println("gagal: data kosong")
+            return
+        }
+        println("ok: Cek status scope: ${viewModelScope.isActive}")
+
+        GlobalScope.launch {
+            println("ok: masuk ke launch")
             try {
-                val currentTimestamp = Clock.System.now().toEpochMilliseconds()
-                val email = prefsManager.getUserEmail().first()
+//                withContext(NonCancellable) {
+                    val currentTimestamp = Clock.System.now().toEpochMilliseconds()
+                    val history = BookingHistory(
+                        movieTitle = data.movieTitle ?: "Unknown Movie",
+                        theater = data.theater ?: "Unknown Theater",
+                        session = data.session ?: "Unknown Session",
+                        seatIds = data.selectedSeats.toList().map { it.toString() },
+                        totalPrice = data.totalPrice.toLong(),
+                        paymentMethod = method,
+                        paymentStatus = "LUNAS",
+                        id = 0,
+                        email = userEmail,
+                        buffetItems = data.selectedBuffet ?: "None",
+                        adultTickets = data.adultTickets,
+                        childTickets = data.childTickets,
+                        moviePosterUrl = data.moviePosterUrl ?: "",
+                        bookingDate = currentTimestamp
+                    )
 
-                val history = BookingHistory(
-                    movieTitle = data.movieTitle ?: "Unknown Movie",
-                    theater = data.theater ?: "Unknown Theater",
-                    session = data.session ?: "Unknown Session",
-                    seatIds = data.selectedSeats.toList().map { it.toString() },
-                    totalPrice = data.totalPrice.toLong(),
-                    paymentMethod = method,
-                    paymentStatus = "LUNAS",
-                    id = 0,
-                    email = userEmail,
-                    buffetItems = data.selectedBuffet ?: "None",
-                    adultTickets = data.adultTickets,
-                    childTickets = data.childTickets,
-                    moviePosterUrl = data.moviePosterUrl ?: "",
-                    bookingDate = currentTimestamp
-                )
-                println("udah ${data.movieTitle} ${currentTimestamp} ${email}")
+                    println("ok: coba Insert ke Database")
+                    val newId = BookingDao.insertBooking(history)
+                    _lastInsertedId.value = newId.toInt()
+                    println("ok:  ID: $newId")
 
-                val newId = BookingDao.insertBooking(history)
-                _lastInsertedId.value = newId.toInt()
+                    NotificationHelper.showSuccessNotification(
+                        movieTitle = data.movieTitle ?: "",
+                        theater = data.theater ?: "",
+                        bookingId = newId.toInt()
+                    )
 
-//                BookingDao.insertBooking(history)
-
-                NotificationHelper.showSuccessNotification(
-                    movieTitle = data.movieTitle ?: "",
-                    theater = data.theater ?: "",
-                    bookingId = newId.toInt()
-                )
-
-                onPaymentFinished()
-                resetBookingData()
-
+                    onPaymentFinished()
+                    resetBookingData()
+                    println("ok: Proses Selesai.")
+//                }
             } catch (e: Exception) {
-                paymentTrigger.value = false
-//                Log.e("BookingVM", "Failed to save booking: ${e.message}")
+                println("gagal: ${e.message}")
+                e.printStackTrace()
+                onPaymentFinished()
             }
         }
     }

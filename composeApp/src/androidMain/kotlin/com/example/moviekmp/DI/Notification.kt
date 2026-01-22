@@ -16,7 +16,8 @@ actual object NotificationHelper {
 
    actual fun showSuccessNotification(movieTitle: String, theater: String, bookingId: Int) {
         Log.d("Notification", "${movieTitle}")
-        val context = MyMovieApp.Companion.appContext
+       val uniqueNotifId = (System.currentTimeMillis() % Int.MAX_VALUE).toInt()
+       val context = MyMovieApp.Companion.appContext
         val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val routeUri = "app://movie/detailticket/$bookingId".toUri()
@@ -45,6 +46,8 @@ actual object NotificationHelper {
             .setAutoCancel(true)
             .build()
 
-        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
+        notificationManager.notify(bookingId, notification)
+       Log.d("Notification", "${uniqueNotifId}")
+
     }
 }
