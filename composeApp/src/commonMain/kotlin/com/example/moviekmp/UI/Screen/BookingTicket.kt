@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.moviekmp.DI.ToastHelper
 import com.example.moviekmp.Data.Local.PrefsManager
 import com.example.moviekmp.UI.Theme.getPoppinsFontFamily
 import com.example.moviekmp.ViewModel.BookingTicketVM
@@ -97,7 +98,8 @@ fun BookingTicket(
                                 errorMessage = null
                                 currentStep++
                             } else {
-                                errorMessage = "Harap pilih Theater dan Sesi" // pengganti toast
+                                ToastHelper().showToast("Harap pilih Theater dan Sesi")
+                                errorMessage = "Harap pilih Theater dan Sesi"
 //                                Toast.makeText(
 //                                    context,
 //                                    "Harap pilih Theater dan Sesi",
@@ -112,10 +114,12 @@ fun BookingTicket(
                             if (totalTickets > 0 && selectedSeatsCount == totalTickets) {
                                 currentStep++
                             } else if (totalTickets == 0) {
-                                errorMessage = "Harap tambahkan jumlah tiket"
+                                ToastHelper().showToast("Harap tambahkan jumlah tiket")
+//                                errorMessage = "Harap tambahkan jumlah tiket"
 //                                Toast.makeText(context, "Harap tambahkan jumlah tiket", android.widget.Toast.LENGTH_SHORT).show()
                             } else {
-                                errorMessage = "Harap pilih $totalTickets kursi"
+                                ToastHelper().showToast("Harap pilih $totalTickets kursi")
+//                                errorMessage = "Harap pilih $totalTickets kursi"
 //                                Toast.makeText(context, "Harap pilih $totalTickets kursi", android.widget.Toast.LENGTH_SHORT).show()
                             }
                         }

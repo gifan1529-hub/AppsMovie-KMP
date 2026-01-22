@@ -103,7 +103,7 @@ fun PaymentScreen(
                 )
 
                 Text(
-                    text = "$ ${bookingData?.totalPrice ?: 0.0}",
+                    text = "$ ${bookingData.totalPrice}",
                     color = Color(0xFF00FF00),
                     fontSize = 30.sp,
                     fontFamily = Poppins,

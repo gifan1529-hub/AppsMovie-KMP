@@ -20,7 +20,7 @@ actual class ExportPdf {
 
     @OptIn(ExperimentalForeignApi::class)
     actual fun exportTicketPdf(booking: BookingHistory) {
-        val format = UIGraphicsPDFRendererFormat()
+        val format = UIGraphicsPDFRendererFormat() // bawaan ios
         val pageWidth = 595.0
         val pageHeight = 842.0
         val renderer = UIGraphicsPDFRenderer(
@@ -30,12 +30,25 @@ actual class ExportPdf {
 
         val data = renderer.PDFDataWithActions { context ->
             context?.beginPage()
-            val attributes: Map<Any?, *>? = mapOf(NSFontAttributeName to UIFont.boldSystemFontOfSize(18.0))
-            (booking.movieTitle as NSString).drawAtPoint(CGPointMake(100.0, 100.0), withAttributes = attributes)
+            val attributes: Map<Any?, *>? = mapOf(
+                NSFontAttributeName to UIFont.boldSystemFontOfSize(18.0))
+            // judul film ke NSString biar bisa di gambar
+            (booking.movieTitle as NSString).drawAtPoint(
+                CGPointMake( // biar bisa nentuin x, y nya
+                    100.0,
+                    100.0
+                ), withAttributes = attributes)
         }
 
-        val path = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true).first() as String
+        // nentuin  lokasi nympen file
+        val path = NSSearchPathForDirectoriesInDomains(
+            NSDocumentDirectory,
+            NSUserDomainMask,
+            true
+        ).first() as String
+        // nama file
         val fileName = "$path/Tiket_${booking.id}.pdf"
+        // nyimpen data pdf ke memori ipon
         data.writeToFile(fileName, true)
 
     }

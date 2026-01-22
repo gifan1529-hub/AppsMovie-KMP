@@ -15,7 +15,7 @@ import java.io.FileOutputStream
 actual class ExportPdf {
     actual fun exportTicketPdf(booking: BookingHistory) {
         val context = MyMovieApp.appContext
-        val pdfDocument = PdfDocument()
+        val pdfDocument = PdfDocument() // library bawaan android
         val pageInfo = PdfDocument.PageInfo.Builder(300, 500, 1).create()
         val page = pdfDocument.startPage(pageInfo)
         val canvas: Canvas = page.canvas

@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.example.moviekmp.DI.ToastHelper
 import com.example.moviekmp.Domain.Usecase.BuffetItem
 import com.example.moviekmp.UI.Theme.getPoppinsFontFamily
 import com.example.moviekmp.ViewModel.BookingTicketVM
@@ -137,6 +138,7 @@ fun BuffetItemScreen(
             onClick = {
                 viewModel.confirmBuffetSelection()
                 navController.popBackStack()
+                ToastHelper().showToast("Pesanan Berhasil")
             },
             modifier = Modifier
                 .fillMaxWidth()

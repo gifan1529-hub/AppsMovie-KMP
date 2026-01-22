@@ -41,6 +41,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import com.example.moviekmp.DI.ToastHelper
 import com.example.moviekmp.UI.Theme.getPoppinsFontFamily
 import com.example.moviekmp.ViewModel.BookingTicketVM
 import kotlinx.coroutines.launch
@@ -250,10 +251,7 @@ fun TicketSelectionScreen(
                             showSessionDialog = true
                         } else {
                             scope.launch {
-                                snackbarHostState.showSnackbar(
-                                    message = "Mohon pilih theater terlebih dahulu",
-                                    duration = SnackbarDuration.Short
-                                )
+                                ToastHelper().showToast("Mohon pilih theater terlebih dahulu")
 //                    Toast.makeText(context,"Mohon pilih theater terlebih dahulu",Toast.LENGTH_SHORT).show()
                             }
                         }
@@ -268,6 +266,7 @@ fun TicketSelectionScreen(
                         if (isSelectionComplete) {
                             navController.navigate("buffet")
                         } else {
+                            ToastHelper().showToast("Mohon pilih theater dan session terlebih dahulu")
                             errorMessage = "Mohon pilih theater dan session terlebih dahulu"
 //                        Toast.makeText(context,"Mohon pilih theater dan session terlebih dahulu",Toast.LENGTH_SHORT).show()
                         }

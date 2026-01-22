@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.example.moviekmp.DI.ToastHelper
 import com.example.moviekmp.Domain.Usecase.RegistrationStatus
 import com.example.moviekmp.UI.Theme.getPoppinsFontFamily
 import com.example.moviekmp.ViewModel.SignUpVM
@@ -139,7 +140,10 @@ fun SignUpScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Button(
-                onClick = {viewModel.onSignUpClick() },
+                onClick = {
+                    viewModel.onSignUpClick()
+                    ToastHelper().showToast("Confirm Your Account")
+                },
                 shape = RoundedCornerShape(18.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF3C1A78)),
                 modifier = Modifier

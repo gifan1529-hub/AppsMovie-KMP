@@ -15,6 +15,7 @@ composeMultiplatform = "1.10.0"
 junit = "4.13.2"
 kotlin = "2.1.0"
 coil = "3.0.0-alpha06"
+pdfViewer = "1.0.0-alpha12"
 
 [libraries]
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
@@ -30,6 +31,7 @@ androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle
 androidx-datastore-preferences = { group = "androidx.datastore", name = "datastore-preferences-core", version.ref = "datastore" }
 coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+androidx-pdf-viewer = { group = "androidx.pdf", name = "pdf-viewer", version.ref = "pdfViewer" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
