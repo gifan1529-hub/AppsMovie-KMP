@@ -24,11 +24,16 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import androidx.datastore.preferences.core.Preferences
 
+/**
+ * MainActivity untuk android
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-
+        /**
+         * inject koin
+         */
         if (GlobalContext.getOrNull() == null) {
             startKoin {
                 androidContext(this@MainActivity.applicationContext
@@ -52,6 +57,9 @@ class MainActivity : ComponentActivity() {
             }
         }
         setContent {
+            /**
+             * minta izin notifikasi di android
+             */
             val context = LocalContext.current
             val permissionLauncher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.RequestPermission()

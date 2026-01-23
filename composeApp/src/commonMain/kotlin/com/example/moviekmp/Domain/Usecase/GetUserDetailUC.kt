@@ -7,6 +7,9 @@ data class UserDetails(
     val email : String
 )
 
+/**
+ * usecase untuk mengambil data user berdasarkan email
+ */
 class GetUserDetailsUC (
     private val prefsManager: PrefsManager
 ) {

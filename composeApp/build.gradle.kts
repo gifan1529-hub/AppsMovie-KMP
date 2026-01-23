@@ -59,6 +59,7 @@ kotlin {
             implementation("androidx.room:room-runtime:2.7.0-alpha11")
             implementation("androidx.sqlite:sqlite-bundled:2.5.0-alpha01")
 
+            // KTOR
             implementation("io.ktor:ktor-client-core:2.3.12")
             implementation("io.ktor:ktor-client-content-negotiation:2.3.12")
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
@@ -69,7 +70,10 @@ kotlin {
             implementation("com.squareup.okio:okio:3.9.0")
             implementation("androidx.datastore:datastore-preferences-core:1.1.1")
 
-            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha02") // atau versi terbaru
+            // Nav DeepLink
+            implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha08")
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose:2.8.0")
+            implementation("org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose:2.8.0")
 
             implementation(compose.components.resources)
 
@@ -78,6 +82,7 @@ kotlin {
             implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.12")
             implementation("io.ktor:ktor-client-logging:2.3.12")
 
+            // Koin
             implementation("io.insert-koin:koin-core:4.0.0")
             implementation("io.insert-koin:koin-compose:4.0.0")
             implementation("io.insert-koin:koin-compose-viewmodel:4.0.0")

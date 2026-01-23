@@ -57,8 +57,17 @@ import org.koin.dsl.module
 
 expect val platformModule: org.koin.core.module.Module
 // DI
+/**
+ * buat ngatur dependency injection nya
+ * ibarat binds dan provides kalo di compose
+ * factory kalo di xml
+ */
 val appModule = module {
-//    single { createDataStore(get()) }
+    /**
+     * single : akan aktif terus selama app nya belum ditutup
+     * factory : hanya aktif ketika di panggil saja
+     * viewModel : sama aja kaya factory
+     */
     single { PrefsManager(get()) }
 
     // Dao

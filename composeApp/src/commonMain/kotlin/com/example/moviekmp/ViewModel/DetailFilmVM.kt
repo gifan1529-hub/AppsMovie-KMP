@@ -25,7 +25,9 @@ class DetailFilmVM (
     private val _isFavorite = MutableStateFlow(false)
     val isFavorite: StateFlow<Boolean> = _isFavorite
 
-
+    /**
+     * ngambil data detail film sesuai sama id nya
+     */
     fun getMovieById(movieId: String) {
         viewModelScope.launch {
             val currentEmail = prefsManager.getUserEmail().first()
@@ -41,13 +43,10 @@ class DetailFilmVM (
         }
     }
 
-    fun checkFavoriteStatus(movieId: String) {
-        viewModelScope.launch {
-            val currentEmail = prefsManager.getUserEmail().first()
-            _isFavorite.value = favoriteDao.isMovieFavorite(movieId, currentEmail) ?: false
-        }
-    }
-
+    /**
+     * buat nambah atau hapus film dari favorite database
+     * Alur: Ambil email user -> Cek status sekarang -> Simpan/Hapus dari favorite database
+     */
     fun toggleFavoriteStatus(movie: RoomApi) {
         viewModelScope.launch {
             val newStatus = !_isFavorite.value

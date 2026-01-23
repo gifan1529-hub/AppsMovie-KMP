@@ -28,5 +28,4 @@ class SearchUC (
             emit(SearchState.Error(e.message ?: "Unknown error"))
         }
     }
-
 }

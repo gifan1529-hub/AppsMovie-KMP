@@ -1,5 +1,8 @@
 package com.example.moviekmp.Domain.Usecase
 
+/**
+ * isi dari buffet Menu
+ */
 class BuffetMenuUC () {
 
     operator fun invoke(): List<BuffetItem> {

@@ -8,6 +8,9 @@ sealed class LoginResult {
     data class Failure(val error: Exception) : LoginResult()
 }
 
+/**
+ * usecase untuk ngecek apakah user ada di database atau tidak
+ */
 class LoginUC (
     private val repository: UserRepository
 ) {

@@ -1,5 +1,8 @@
 package com.example.moviekmp.Domain.Usecase
 
+/**
+ * usecase untuk menghitung harga tiket dan makanan
+ */
 class CalculatePriceUC () {
     private val adultTicketPrice = 40.0
     private val childTicketPrice = 25.0

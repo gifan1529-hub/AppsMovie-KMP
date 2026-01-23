@@ -9,12 +9,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import com.example.moviekmp.DI.ExportPdf
 
+/**
+ * viewModel dari detail ticket
+ */
 class DetailTicketVM  (
     private val getBookingDetailUC: GetBookingDetailUC
 ) : ViewModel() {
     private val _ticketDetails = MutableStateFlow<BookingHistory?>(null)
     val ticketDetails: StateFlow<BookingHistory?> = _ticketDetails
     val exportPdf = ExportPdf()
+
+    /**
+     * ngambil data detail ticket sesuai sama id nya
+     */
     fun loadBookingDetails(id: Int) {
         viewModelScope.launch {
             val details = getBookingDetailUC(id)
@@ -22,6 +29,9 @@ class DetailTicketVM  (
         }
     }
 
+    /**
+     * function untuk export to pdf
+     */
     fun downloadPdf(ticket: BookingHistory?){
         ticket?.let{
             exportPdf.exportTicketPdf(it)

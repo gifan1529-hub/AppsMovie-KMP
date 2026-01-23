@@ -11,6 +11,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
+/**
+ * state awal dari email dan password
+ */
 data class EditUserUiState(
     val email: String = "",
     val passwordBaru: String = "",
@@ -19,6 +22,9 @@ data class EditUserUiState(
     val error: String? = null
 )
 
+/**
+ * viewmodel dari edit user
+ */
 class EditUserVM (
     private val getUserUC: GetUserUC,
     private val updateUserUC: UpdateUserUC,
@@ -33,6 +39,9 @@ class EditUserVM (
         _uiState.value = EditUserUiState()
     }
 
+    /**
+     * ngambil data user dari database room sesuai sama email nya
+     */
     fun loadUser(userEmail: String) {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(isLoading = true)
@@ -53,14 +62,24 @@ class EditUserVM (
         }
     }
 
+    /**
+     * memperbarui state email sesuai sama yang user ketik
+     */
     fun onEmailChanged(email: String) {
         _uiState.value = _uiState.value.copy(email = email)
     }
 
+    /**
+     * memperbarui state password sesuai sama yang user ketik
+     */
     fun onPasswordBaruChanged(passwordBaru: String) {
         _uiState.value = _uiState.value.copy(passwordBaru = passwordBaru)
     }
 
+    /**
+     * nyimpen data ke database room
+     * nge copy email dan password yang baru ke database room dan disimpan ke data store
+     */
     fun onUpdateClicked() {
         viewModelScope.launch {
             val currentState = _uiState.value ?: return@launch

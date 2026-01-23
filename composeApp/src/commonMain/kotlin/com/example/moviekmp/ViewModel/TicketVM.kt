@@ -11,6 +11,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 
+/**
+ * viewModel dari ticket screen
+ * nampilin booking history sesuai sama email nya dari data store
+ */
 class TicketVM (
     private val getBookingsByEmail : GetBookingUC,
     private val prefsManager: PrefsManager

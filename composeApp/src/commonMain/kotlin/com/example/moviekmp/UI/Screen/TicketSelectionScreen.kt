@@ -60,12 +60,6 @@ fun TicketSelectionScreen(
     val Poppins = getPoppinsFontFamily()
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(bookingData) {
-//        Log.d("TicketSelection", "Data Diterima di UI: " +
-//                "Title: ${bookingData.movieTitle}, " +
-//                "Poster: ${bookingData.moviePosterUrl}")
-    }
-
     var showTheaterDialog by remember { mutableStateOf(false) }
     var selectedTheater by remember { mutableStateOf("Choose a Movie Theater *") }
     val theaterList = listOf("Cinema XXI - Plaza Senayan", "CGV - Grand Indonesia", "Cinépolis - Pejaten Village")

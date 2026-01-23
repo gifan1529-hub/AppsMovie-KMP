@@ -7,6 +7,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
+/**
+ * buat nge get URL dari Api
+ */
 object ApiClient {
 
     private const val BASE_URL = "https://api.imdbapi.dev/"

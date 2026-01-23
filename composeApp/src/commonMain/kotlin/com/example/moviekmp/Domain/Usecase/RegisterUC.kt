@@ -9,6 +9,9 @@ sealed class RegistrationStatus {
     data class Failure(val error: Exception) : RegistrationStatus()
 }
 
+/**
+ * usecase untuk register user
+ */
 class RegisterUserUC (
     private val repository: UserRepository
 ){

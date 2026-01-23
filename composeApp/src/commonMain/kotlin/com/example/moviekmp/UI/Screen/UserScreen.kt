@@ -60,7 +60,6 @@ fun UserScreen(
 
     LaunchedEffect(refreshTrigger) {
         viewModel.loadUserDetail()
-//        Log.d("DEBUGss", "Refresh trigger ")
         if (refreshTrigger == true) {
             viewModel.loadUserDetail()
             // nge hapus surat setelah isinya true

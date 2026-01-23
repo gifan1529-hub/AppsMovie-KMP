@@ -6,6 +6,9 @@ import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
 
+/**
+ * Channel untuk notifikasi
+ */
 class MyMovieApp: Application() {
 
     companion object {
