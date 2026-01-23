@@ -9,6 +9,10 @@ import platform.darwin.dispatch_after
 import platform.darwin.dispatch_get_main_queue
 import platform.darwin.dispatch_time
 
+/**
+ * ini buat nampilin toast di ios
+ * tapi ini cuman alternatif, jadinya pake alert dulu
+ */
 actual class ToastHelper {
     actual fun showToast (message: String) {
         val alert = UIAlertController.alertControllerWithTitle(

@@ -12,6 +12,9 @@ import com.example.moviekmp.Data.Local.MyMovieApp
 import com.example.moviekmp.Domain.Model.BookingHistory
 import java.io.FileOutputStream
 
+/**
+ * untuk export pdf di android
+ */
 actual class ExportPdf {
     actual fun exportTicketPdf(booking: BookingHistory) {
         val context = MyMovieApp.appContext

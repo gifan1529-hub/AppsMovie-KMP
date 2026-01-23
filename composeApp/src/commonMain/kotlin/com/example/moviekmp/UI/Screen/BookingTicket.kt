@@ -99,12 +99,6 @@ fun BookingTicket(
                                 currentStep++
                             } else {
                                 ToastHelper().showToast("Harap pilih Theater dan Sesi")
-                                errorMessage = "Harap pilih Theater dan Sesi"
-//                                Toast.makeText(
-//                                    context,
-//                                    "Harap pilih Theater dan Sesi",
-//                                    android.widget.Toast.LENGTH_SHORT
-//                                ).show()
                             }
                         }
                         2 -> {
@@ -115,12 +109,8 @@ fun BookingTicket(
                                 currentStep++
                             } else if (totalTickets == 0) {
                                 ToastHelper().showToast("Harap tambahkan jumlah tiket")
-//                                errorMessage = "Harap tambahkan jumlah tiket"
-//                                Toast.makeText(context, "Harap tambahkan jumlah tiket", android.widget.Toast.LENGTH_SHORT).show()
                             } else {
                                 ToastHelper().showToast("Harap pilih $totalTickets kursi")
-//                                errorMessage = "Harap pilih $totalTickets kursi"
-//                                Toast.makeText(context, "Harap pilih $totalTickets kursi", android.widget.Toast.LENGTH_SHORT).show()
                             }
                         }
                         3 -> {
@@ -134,17 +124,6 @@ fun BookingTicket(
                             }
                         }
                     }
-//                    if (currentStep < 3) {
-//                        currentStep++
-//                    } else {
-//                        bookingVM.confirmPaymentAndSave(
-//                            method = selectedPaymentMethod,
-//                            userEmail = userEmail
-//                        )
-//                        navController.navigate("resultpayment") {
-//                            popUpTo("home") { inclusive = true }
-//                        }
-//                    }
                 }
             )
         }
@@ -178,6 +157,9 @@ fun BookingTicket(
     }
 }
 
+/**
+ * ui untuk header booking
+ */
 @Composable
 fun BookingHeader(currentStep: Int, onBackClick: () -> Unit) {
     Row(
@@ -222,6 +204,9 @@ fun BookingHeader(currentStep: Int, onBackClick: () -> Unit) {
     }
 }
 
+/**
+ * ui untuk circle step
+ */
 @Composable
 fun StepCircle(stepNumber: Int, isActive: Boolean) {
     val Poppins = getPoppinsFontFamily()
@@ -242,6 +227,9 @@ fun StepCircle(stepNumber: Int, isActive: Boolean) {
     }
 }
 
+/**
+ * ui untuk tombol booking footer
+ */
 @Composable
 fun BookingFooter(currentStep: Int, onNextClick: () -> Unit) {
     val Poppins = getPoppinsFontFamily()

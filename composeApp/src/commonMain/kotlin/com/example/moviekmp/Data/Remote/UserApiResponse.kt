@@ -3,6 +3,10 @@ package com.example.moviekmp.Data.Remote
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * buat ngambil data dari api
+ * data apa yang pengen di ambil dari database
+ */
 @Serializable
 data class UserApiResponse (
 

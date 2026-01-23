@@ -16,6 +16,10 @@ import platform.UIKit.UIGraphicsPDFRenderer
 import platform.UIKit.UIGraphicsPDFRendererFormat
 import platform.UIKit.drawAtPoint
 
+/**
+ * ini buat export ke pdf di ios
+ * file nya bakal kesimpen di lokasi yang udah di set
+ */
 actual class ExportPdf {
 
     @OptIn(ExperimentalForeignApi::class)
@@ -40,7 +44,7 @@ actual class ExportPdf {
                 ), withAttributes = attributes)
         }
 
-        // nentuin  lokasi nympen file
+        // nentuin lokasi nympen file
         val path = NSSearchPathForDirectoriesInDomains(
             NSDocumentDirectory,
             NSUserDomainMask,

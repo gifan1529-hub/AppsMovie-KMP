@@ -11,6 +11,9 @@ sealed class DetailResult {
     object Loading : DetailResult()
 }
 
+/**
+ * usecase untuk mengambil data detail film berdasarkan id
+ */
 class GetMovieDetailUC (
     private val repository: MovieRepository
 ) {

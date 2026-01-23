@@ -1,5 +1,8 @@
 package com.example.moviekmp.Domain.Usecase
 
+/**
+ * data class untuk buffet
+ */
 data class BuffetItem(
     val id: Int,
     val name: String,

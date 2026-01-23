@@ -4,6 +4,9 @@ import com.example.moviekmp.Domain.Model.FavoriteMovie
 import com.example.moviekmp.Domain.Model.RoomApi
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * interface dari [MovieRepository]
+ */
 interface MovieRepository  {
     suspend fun searchMovies(query: String): List<RoomApi>
 

@@ -2,6 +2,9 @@ package com.example.moviekmp.Domain.Repository
 
 import com.example.moviekmp.Domain.Model.User
 
+/**
+ * interface dari [UserRepository]
+ */
 interface UserRepository {
 
     suspend fun getUserByEmail(email: String): User?

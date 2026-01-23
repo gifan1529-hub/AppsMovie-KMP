@@ -24,6 +24,9 @@ import kotlinx.coroutines.withContext
 import kotlin.time.Clock
 import kotlin.time.ExperimentalTime
 
+/**
+ * data awal dari booking data
+ */
 data class BookingData(
     var movieId: String? = null,
     var movieTitle: String? = null,
@@ -68,31 +71,38 @@ class BookingTicketVM (
     val bookingData: StateFlow<BookingData> = _bookingData
 
     init {
-//        _bookingData.value = BookingData()
         _buffetMenuList.value = buffetMenuUC()
     }
 
-    fun onConfirmPaymentClicked() {
-        paymentTrigger.value = true
-    }
-
+    /**
+     * function onPaymentFinished untuk reset state paymentTrigger
+     */
     fun onPaymentFinished() {
         paymentTrigger.value = false
     }
 
+    /**
+     *function ini untuk mneghitung harga dan validasi seat
+     */
     private fun updateStateAndValidate(){
         val currentData = _bookingData.value ?: return
-
+        // Ambil data tiket & makanan, trus dihitung harganya
         val newTotal = calculatePriceUC(
             currentData.adultTickets,
             currentData.childTickets,
             _buffetMenuList.value ?: emptyList()
         )
-
+        // nyimpen hasil hitungan ke dalem bookingData
         val updatedData = currentData.copy(totalPrice = newTotal)
         _bookingData.value = updatedData
     }
 
+    /**
+     * ngambil daftar menu buffet yang di klik
+     * ngitung harga sesuai sama quaintity nya
+     * nyimpen hasil jumlah nya ke [buffetSubtotal]
+     * manggil function [updateStateAndValidate] untuk update state nya
+     */
     private fun updateBuffetAndRecalculate() {
         val currentData = _bookingData.value ?: return
         var buffetTotal = 0.0
@@ -103,6 +113,10 @@ class BookingTicketVM (
         updateStateAndValidate()
     }
 
+    /**
+     * function unutk ngurangin jumlah quantity buffet
+     * bakal ngitung ulang total harga buffet nya
+     */
     fun removeBuffetItem(item: BuffetItem) {
         val currentList = _buffetMenuList.value?.toMutableList() ?: return
         val index = currentList.indexOfFirst { it.id == item.id }
@@ -115,6 +129,10 @@ class BookingTicketVM (
         }
     }
 
+    /**
+     * function unutuk nambahin jumlah quantity buffet
+     * bakal ngitung ulang total harga buffet nya
+     */
     fun addBuffetItem(item: BuffetItem) {
         val currentList = _buffetMenuList.value?.toMutableList() ?: return
         val index = currentList.indexOfFirst { it.id == item.id }
@@ -127,13 +145,19 @@ class BookingTicketVM (
             updateBuffetAndRecalculate()
         }
     }
-
+    /**
+     * function unutuk nambahin jumlah quantity ticket dewasa
+     * bakal ngitung ulang total harga ticket nya
+     */
     fun addAdultTicket() {
         val currentData = _bookingData.value ?: return
         currentData.adultTickets++
         updateStateAndValidate()
     }
-
+    /**
+     * function unutuk ngurangin jumlah quantity ticket dewasa
+     * bakal ngitung ulang total harga ticket nya
+     */
     fun removeAdultTicket() {
         val currentData = _bookingData.value ?: return
         if (currentData.adultTickets > 0) {
@@ -141,13 +165,19 @@ class BookingTicketVM (
             updateStateAndValidate()
         }
     }
-
+    /**
+     * function unutuk nambahin jumlah quantity ticket bocil
+     * bakal ngitung ulang total harga ticket nya
+     */
     fun addChildTicket() {
         val currentData = _bookingData.value ?: return
         currentData.childTickets++
         updateStateAndValidate()
     }
-
+    /**
+     * function unutuk ngurangin jumlah quantity ticket bocil
+     * bakal ngitung ulang total harga ticket nya
+     */
     fun removeChildTicket() {
         val currentData = _bookingData.value ?: return
         if (currentData.childTickets > 0) {
@@ -156,6 +186,11 @@ class BookingTicketVM (
         }
     }
 
+    /**
+     * function ini untuk nyatet apa yang udah di pesan menjadi String untuk di tampilin di seatScreen
+     * contoh : 2x Popcorn
+     * kalo gada yang dipesen tulisannhya none
+     */
     fun confirmBuffetSelection() {
         val currentBookingData = _bookingData.value ?: return
         val selectedBuffetItems = _buffetMenuList.value?.filter { it.quantity > 0 }
@@ -165,6 +200,9 @@ class BookingTicketVM (
         _bookingData.value = currentBookingData
     }
 
+    /**
+     * ngisi data awal film ke dalem state [bookingData]
+     */
     fun setInitialMovieData(id: String?, title: String?, posterUrl: String?, genre: String?) {
         println("qwerty : VM $posterUrl")
         _bookingData.value = _bookingData.value.copy(
@@ -175,6 +213,10 @@ class BookingTicketVM (
         )
     }
 
+    /**
+     * myimpen teater yang dipilih
+     * dan nandain kalo teater udah di pilih
+     */
     fun setTheater(theaterName: String) {
         val currentData = _bookingData.value ?: return
         currentData.theater = theaterName
@@ -182,7 +224,10 @@ class BookingTicketVM (
         _isTheaterSelected.value = true
     }
 
-
+    /**
+     * myimpen session yang dipilih
+     * dan nandain kalo session udah di pilih
+     */
     fun setSession(sessionTime: String) {
         val currentData = _bookingData.value ?: return
         currentData.session = sessionTime
@@ -190,6 +235,10 @@ class BookingTicketVM (
         _isSessionSelected.value = true
     }
 
+    /**
+     * function untuk milih dan batalin pilihan kursi
+     * mastiin jumlah kursi dan jumlah ticket sama
+     */
     fun onSeatSelected(seatIndex: Int) {
         val currentData = _bookingData.value ?: return
         val totalTickets = currentData.adultTickets + currentData.childTickets
@@ -204,6 +253,9 @@ class BookingTicketVM (
         _bookingData.value = currentData.copy(selectedSeats = newSelectedSeats)
     }
 
+    /**
+     * ngereset data booking ke awal
+     */
     fun resetBookingData() {
         _bookingData.value = BookingData()
         _isSessionSelected.value = false
@@ -219,6 +271,9 @@ class BookingTicketVM (
         }
     }
 
+    /**
+     * function untuk confirm payment dan dave ke database
+     */
     @OptIn(ExperimentalTime::class, DelicateCoroutinesApi::class)
     fun confirmPaymentAndSave(method: String, userEmail: String) {
         println("ok: proses pembayaran")
@@ -233,8 +288,11 @@ class BookingTicketVM (
         GlobalScope.launch {
             println("ok: masuk ke launch")
             try {
-//                withContext(NonCancellable) {
                     val currentTimestamp = Clock.System.now().toEpochMilliseconds()
+
+                /**
+                 * nymmpen data pesanan ke database booking history
+                 */
                     val history = BookingHistory(
                         movieTitle = data.movieTitle ?: "Unknown Movie",
                         theater = data.theater ?: "Unknown Theater",
@@ -256,17 +314,21 @@ class BookingTicketVM (
                     val newId = BookingDao.insertBooking(history)
                     _lastInsertedId.value = newId.toInt()
                     println("ok:  ID: $newId")
-
+                /**
+                 * setelah selesai mesen akan munucl notification
+                 */
                     NotificationHelper.showSuccessNotification(
                         movieTitle = data.movieTitle ?: "",
                         theater = data.theater ?: "",
                         bookingId = newId.toInt()
                     )
-
+                /**
+                 * setelah selesai mesen data nya akan di reset
+                 * men cegah supaya data yang tadi sudah di pesan tidak muncul jika ingin mesen ticket lagi
+                 */
                     onPaymentFinished()
                     resetBookingData()
                     println("ok: Proses Selesai.")
-//                }
             } catch (e: Exception) {
                 println("gagal: ${e.message}")
                 e.printStackTrace()
@@ -274,41 +336,4 @@ class BookingTicketVM (
             }
         }
     }
-
-    fun clearLastInsertedId() {
-        _lastInsertedId.value = null
-    }
-
-//    private fun showSuccessNotification(movieTitle: String, theater: String, bookingId: Int) {
-//        Log.d("Notification", "${movieTitle}")
-//        val notificationManager = context.getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-//
-//        val routeUri = "app://movie/detailticket/$bookingId".toUri()
-//
-//        val intent = Intent(
-//            Intent.ACTION_VIEW,
-//            routeUri,
-//            context,
-//            MainActivity::class.java
-//        )
-//
-//        val pendingIntent = TaskStackBuilder.create(context).run {
-//            addNextIntentWithParentStack(intent)
-//            getPendingIntent(
-//                bookingId,
-//                PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-//            )
-//        }
-//
-//        val notification = NotificationCompat.Builder(context, "PYAMENT_SUCCES_CHANNEL")
-//            .setSmallIcon(com.example.compose.R.drawable.ticket)
-//            .setContentTitle("Pembayaran Berhasil! 🍿")
-//            .setContentText("Tiket untuk $movieTitle di $theater berhasil dipesan.")
-//            .setPriority(NotificationCompat.PRIORITY_HIGH)
-//            .setContentIntent(pendingIntent)
-//            .setAutoCancel(true)
-//            .build()
-//
-//        notificationManager.notify(System.currentTimeMillis().toInt(), notification)
-//    }
 }

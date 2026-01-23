@@ -10,6 +10,9 @@ import com.example.moviekmp.Domain.Model.BookingHistory
 import com.example.moviekmp.Data.Local.RoomDao
 import com.example.moviekmp.Data.Local.UserDao
 
+/**
+ * daftar database dan dao yang akan digunakan
+ */
 @TypeConverters(Converter::class)
 @Database(
     entities = [

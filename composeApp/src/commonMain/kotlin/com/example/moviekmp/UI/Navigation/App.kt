@@ -51,7 +51,7 @@ import com.example.moviekmp.ViewModel.AuthViewModel
 import com.example.moviekmp.ViewModel.BookingTicketVM
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
-
+import androidx.navigation.navDeepLink
 import moviekmp.composeapp.generated.resources.Res
 import moviekmp.composeapp.generated.resources.compose_multiplatform
 import org.koin.compose.KoinApplication
@@ -77,6 +77,10 @@ fun App(
                 startDestination = "login",
                 modifier = modifier.fillMaxSize()
             ) {
+                /**
+                 * Halaman login
+                 * jika isLoggedIn true maka akan diarahkan ke halaman home
+                 */
                 composable(route = "login") {
                     LaunchedEffect(Unit) {
                         if (authViewModel.isLoggedIn()) {
@@ -96,6 +100,9 @@ fun App(
                 composable(route = "home") {
                     MainPagerScreen(navController = navController)
                 }
+                /**
+                 * halaman home dengan parameter page yang akan ditampilkan
+                 */
                 composable(
                     route = "home?page={page}",
                     arguments = listOf(navArgument("page") { type = NavType.IntType; defaultValue = 1 })
@@ -115,12 +122,16 @@ fun App(
                 composable(route = "resultpayment") {
                     ResultPaymentScreen(navController = navController)
                 }
+                /**
+                 * halaman detail ticket dengan parameter bookingId yang akan ditampilkan
+                 * jika ada deeplink maka akan diarahkan ke halaman detail ticket
+                 */
                 composable(
                     route = "detailticket/{bookingId}",
                     arguments = listOf(navArgument("bookingId") { type = NavType.IntType }),
-//                    deepLinks = listOf(
-//                        navDeepLink { uriPattern = "app://movie/detailticket/{bookingId}" }
-//                    )
+                    deepLinks = listOf(
+                        navDeepLink { uriPattern = "app://movie/detailticket/{bookingId}" }
+                    )
                 ) { backStackEntry ->
                     val bookingId = backStackEntry.arguments?.getInt("bookingId") ?: 0
                     DetailTicketScreen(navController = navController, bookingId = bookingId)
@@ -128,15 +139,19 @@ fun App(
                 composable(
                     route = "user",
                     enterTransition = {
+                        // animasi enter ke samping dari kiri ke kanan
                         slideIntoContainer(towards = AnimatedContentTransitionScope.SlideDirection.Right, animationSpec = tween(500))
                     },
                     exitTransition = {
+                        // animasi exit ke samping dari kanan ke kiri
                         slideOutOfContainer(towards = AnimatedContentTransitionScope.SlideDirection.Left, animationSpec = tween(500))
                     }
                 ) {
                     UserScreen(navController = navController)
                 }
-
+                /**
+                 * halaman edit user dengan parameter userEmail yang akan ditampilin
+                 */
                 composable(route = "edituser/{userEmail}") { backStackEntry ->
                     val email = backStackEntry.arguments?.getString("userEmail") ?: ""
                     EditUserScreen(
@@ -160,7 +175,9 @@ fun App(
                         onMovieClick = { movieId -> navController.navigate("detailfilm/$movieId") }
                     )
                 }
-
+                /**
+                 * halaman detail film dengan parameter movieId yang akan ditampilin
+                 */
                 composable(route = "detailfilm/{movieId}") { backStackEntry ->
                     val movieId = backStackEntry.arguments?.getString("movieId") ?: ""
                     val bookingVM: BookingTicketVM = koinViewModel()
@@ -173,13 +190,17 @@ fun App(
                 }
             }
         }
-//    }
 }
 
+/**
+ * ui untuk pager screen
+ * untuk menampilkan halaman favorite, home, dan ticket
+ */
 @Composable
 fun MainPagerScreen (navController: NavController, startPage: Int = 1) {
     val screens = listOf("favorite", "home", "ticket")
     val pagerState = rememberPagerState(
+        // page awal nya dengan id 1 yaitu home
         initialPage = 1,
         pageCount = { screens.size })
     val scope = rememberCoroutineScope()

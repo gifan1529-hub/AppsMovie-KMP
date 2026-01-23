@@ -12,6 +12,9 @@ import com.example.moviekmp.Data.Local.MyMovieApp
 import com.example.moviekmp.MainActivity
 import com.example.moviekmp.R
 
+/**
+ * nampilin notifikasi setelah mesan ticket di anddroid
+ */
 actual object NotificationHelper {
 
    actual fun showSuccessNotification(movieTitle: String, theater: String, bookingId: Int) {

@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import coil3.request.ImageRequest
+import com.example.moviekmp.DI.ToastHelper
 import com.example.moviekmp.UI.Theme.getPoppinsFontFamily
 import com.example.moviekmp.ViewModel.DetailTicketVM
 import moviekmp.composeapp.generated.resources.*
@@ -82,8 +83,7 @@ fun DetailTicketScreen(
                 actions = {
                     IconButton(onClick = {
                         viewModel.downloadPdf(ticket)
-//                        val name = "Ticket_${ticket?.movieTitle ?: "Movie"}"
-//                        exportToPdf.exportViewToPdf(context, view, name)
+                        ToastHelper().showToast("Ticket Downloaded")
                     }) {
                         Icon(painterResource(Res.drawable.donglot), contentDescription = null, tint = Color.Red, modifier = Modifier.size(24.dp))
                     }

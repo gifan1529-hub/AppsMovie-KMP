@@ -4,6 +4,9 @@ import com.example.moviekmp.Domain.Model.BookingHistory
 import com.example.moviekmp.Domain.Repository.BookingHistoryRepository
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * use case untuk mengambil daftar booking berdasarkan email
+ */
 class GetBookingUC (
     private val bookingHistoryRepository: BookingHistoryRepository
 ) {

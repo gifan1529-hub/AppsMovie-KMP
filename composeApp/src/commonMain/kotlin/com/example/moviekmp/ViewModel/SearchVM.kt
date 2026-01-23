@@ -11,7 +11,9 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.launch
 
-
+/**
+ * viewModel dari search
+ */
 class SearchVM (
     private val searchUC: SearchUC
 ) : ViewModel() {
@@ -29,6 +31,12 @@ class SearchVM (
         setupSearch()
     }
 
+    /**
+     * ngatur setup search
+     * nunggu 500 ms sebelum melakukan pencarian
+     * nge cegah spam pas pencarian
+     * hanya nyari pas ada query yang di ketik
+     */
     private fun setupSearch() {
         viewModelScope.launch {
             _searchQuery
@@ -44,6 +52,11 @@ class SearchVM (
                 }
         }
     }
+
+    /**
+     * memperbarui state search query sesuai sama yang user ketik
+     * jika query kosong maka akan menampilkan empty query
+     */
     fun onQueryChange(newQuery: String) {
         _searchQuery.value = newQuery
         if (newQuery.isEmpty()) {

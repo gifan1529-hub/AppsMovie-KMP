@@ -10,7 +10,9 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSUserDomainMask
 import okio.Path.Companion.toPath
 
-
+/**
+ * ini buat data store di ios
+ */
 @OptIn(ExperimentalForeignApi::class)
 actual fun createDataStore(context: Any): DataStore<Preferences> {
     return PreferenceDataStoreFactory.createWithPath (

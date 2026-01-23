@@ -12,6 +12,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
+/**
+ * ini buat viewmodel dari user
+ */
 class UserVM (
     private val getUser: GetUserDetailsUC,
     private val logoutUser: LogoutUserUC,
@@ -23,6 +26,9 @@ class UserVM (
     private val _logoutEvent = MutableStateFlow<Boolean>(false)
     val logoutEvent: StateFlow<Boolean> = _logoutEvent
 
+    /**
+     * buat nampilin data dari data store
+     */
     fun loadUserDetail(){
         viewModelScope.launch {
             delay(100)
@@ -32,6 +38,10 @@ class UserVM (
             _userDetails.value = details
         }
     }
+
+    /**
+     * logout user
+     */
     fun logout() {
         viewModelScope.launch {
             logoutUser()
